@@ -8,31 +8,31 @@
 
 import UIKit
 
-protocol BarChartViewDelegate: class {
+public protocol BarChartViewDelegate: class {
     func didSelect(dataElement: BarChartView.DataElement, dataSet: BarChartView.DataSet)
 }
 
-final class BarChartView: UIView {
+public final class BarChartView: UIView {
     // MARK: Structs
-    struct Bar: Equatable {
-        let value: Double
-        let color: UIColor
+    public struct Bar: Equatable {
+        public let value: Double
+        public let color: UIColor
     }
 
-    struct DataElement: Equatable {
-        static func == (lhs: BarChartView.DataElement, rhs: BarChartView.DataElement) -> Bool {
+    public struct DataElement: Equatable {
+        public static func == (lhs: BarChartView.DataElement, rhs: BarChartView.DataElement) -> Bool {
             return lhs.bars == rhs.bars &&
                    lhs.xLabel == rhs.xLabel
         }
 
-        let date: Date?
-        let xLabel: String
-        let bars: [Bar]
+        public let date: Date?
+        public let xLabel: String
+        public let bars: [Bar]
     }
 
-    struct DataSet: Equatable {
-        let elements: [DataElement]
-        let selectionColor: UIColor?
+    public struct DataSet: Equatable {
+        public let elements: [DataElement]
+        public let selectionColor: UIColor?
     }
 
     private struct ElementView {
@@ -40,7 +40,7 @@ final class BarChartView: UIView {
     }
 
     // MARK: - Public properties
-    var dataSet: DataSet? {
+    public var dataSet: DataSet? {
         didSet {
             DispatchQueue.main.async { [weak self] in
                 self?.setNeedsLayout()
@@ -48,7 +48,7 @@ final class BarChartView: UIView {
         }
     }
 
-    weak var delegate: BarChartViewDelegate?
+    public weak var delegate: BarChartViewDelegate?
 
     // MARK: - Private properties
     private let chartStackView = UIStackView()
@@ -56,38 +56,38 @@ final class BarChartView: UIView {
     private var graphInConstruction = false
 
     // MARK: - Init
-    required init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
-    override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
     }
 
     // MARK: - Override
-    override func awakeFromNib() {
+    public override func awakeFromNib() {
         super.awakeFromNib()
         commonInit()
     }
 
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         guard let dataSet = dataSet else { return }
         constructGraph(dataSet: dataSet)
     }
 
     // MARK: Public func
-    func select(element: DataElement) {
+    public func select(element: DataElement) {
         guard let elementIndex = dataSet?.elements.firstIndex(where: { element == $0 }) else { return }
         select(index: elementIndex)
     }
 
-    func select(index: Int) {
+    public func select(index: Int) {
         deselectAll()
         elementViews.safe(at: index)?.bars.forEach { $0.backgroundColor = dataSet?.selectionColor }
     }
 
-    func deselectAll() {
+    public func deselectAll() {
         elementViews.enumerated().forEach { arg in
             let (offsetElementView, elementView) = arg
 
