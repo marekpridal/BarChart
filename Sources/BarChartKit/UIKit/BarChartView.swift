@@ -180,6 +180,14 @@ public final class BarChartView: UIView {
             parentView.addAction(UIAction(handler: { [weak self] _ in
                 self?.delegate?.didSelect(dataElement: element, dataSet: dataSet)
             }), for: .touchUpInside)
+        } else {
+            parentView.addTapGestureRecognizer { [weak self] in
+                self?.delegate?.didSelect(dataElement: element, dataSet: dataSet)
+            }
+        }
+        #else
+        parentView.addTapGestureRecognizer { [weak self] in
+            self?.delegate?.didSelect(dataElement: element, dataSet: dataSet)
         }
         #endif
     }
