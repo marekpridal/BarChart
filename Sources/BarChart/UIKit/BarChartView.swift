@@ -10,28 +10,29 @@
 import UIKit
 
 public protocol BarChartViewDelegate: class {
-    func didSelect(dataElement: BarChartView.DataElement, dataSet: BarChartView.DataSet)
+    func didSelect(dataElement: BarChartView.DataSet.DataElement, dataSet: BarChartView.DataSet)
 }
 
 public final class BarChartView: UIView {
-    // MARK: Structs
-    public struct Bar: Equatable {
-        public let value: Double
-        public let color: UIColor
-    }
 
-    public struct DataElement: Equatable {
-        public static func == (lhs: BarChartView.DataElement, rhs: BarChartView.DataElement) -> Bool {
-            return lhs.bars == rhs.bars &&
-                   lhs.xLabel == rhs.xLabel
+    // MARK: Structs
+    public struct DataSet: Equatable {
+        public struct DataElement: Equatable {
+            public struct Bar: Equatable {
+                public let value: Double
+                public let color: UIColor
+            }
+
+            public static func == (lhs: BarChartView.DataSet.DataElement, rhs: BarChartView.DataSet.DataElement) -> Bool {
+                return lhs.bars == rhs.bars &&
+                       lhs.xLabel == rhs.xLabel
+            }
+
+            public let date: Date?
+            public let xLabel: String
+            public let bars: [Bar]
         }
 
-        public let date: Date?
-        public let xLabel: String
-        public let bars: [Bar]
-    }
-
-    public struct DataSet: Equatable {
         public let elements: [DataElement]
         public let selectionColor: UIColor?
     }
@@ -78,7 +79,7 @@ public final class BarChartView: UIView {
     }
 
     // MARK: Public func
-    public func select(element: DataElement) {
+    public func select(element: DataSet.DataElement) {
         guard let elementIndex = dataSet?.elements.firstIndex(where: { element == $0 }) else { return }
         select(index: elementIndex)
     }
@@ -141,7 +142,7 @@ public final class BarChartView: UIView {
         select(element: firstNonZeroElement)
     }
 
-    private func add(label: ChartLabel, parentView: UIView, element: DataElement, dataSet: DataSet) {
+    private func add(label: ChartLabel, parentView: UIView, element: DataSet.DataElement, dataSet: DataSet) {
         label.text = element.xLabel
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         parentView.addSubview(label)
@@ -157,7 +158,7 @@ public final class BarChartView: UIView {
         }
     }
 
-    private func add(barStackView: UIStackView, label: ChartLabel, parentView: UIView, element: DataElement) {
+    private func add(barStackView: UIStackView, label: ChartLabel, parentView: UIView, element: DataSet.DataElement) {
         barStackView.distribution = .equalSpacing
         barStackView.spacing = 5
         parentView.addSubview(barStackView)
@@ -169,7 +170,7 @@ public final class BarChartView: UIView {
         ])
     }
 
-    private func add(barView: UIView, barStackView: UIStackView, bar: Bar, maxValue: Double) -> UIView {
+    private func add(barView: UIView, barStackView: UIStackView, bar: DataSet.DataElement.Bar, maxValue: Double) -> UIView {
         let divider: Double = maxValue / bar.value
         let barParentView = UIView()
         barStackView.addArrangedSubview(barParentView)
@@ -204,18 +205,18 @@ public final class BarChartView: UIView {
 #if DEBUG
 // swiftlint:disable all
 fileprivate var mockBarChartDataSet: BarChartView.DataSet? = BarChartView.DataSet(elements: [
-    BarChartView.DataElement(date: nil, xLabel: "Jan", bars: [BarChartView.Bar(value: 20000, color: UIColor.green),
-                                            BarChartView.Bar(value: 15000, color: UIColor.blue)]),
-    BarChartView.DataElement(date: nil, xLabel: "Feb", bars: [BarChartView.Bar(value: 0, color: UIColor.green)]),
-    BarChartView.DataElement(date: nil, xLabel: "Mar", bars: [BarChartView.Bar(value: 10000, color: UIColor.green),
-                                            BarChartView.Bar(value: 5000, color: UIColor.blue)]),
-    BarChartView.DataElement(date: nil, xLabel: "Apr", bars: [BarChartView.Bar(value: 20000, color: UIColor.green),
-                                            BarChartView.Bar(value: 15000, color: UIColor.blue)]),
-    BarChartView.DataElement(date: nil, xLabel: "May", bars: [BarChartView.Bar(value: 32000, color: UIColor.green),
-                                            BarChartView.Bar(value: 15000, color: UIColor.blue)]),
-    BarChartView.DataElement(date: nil, xLabel: "Jun", bars: [BarChartView.Bar(value: 20000, color: UIColor.green)]),
-    BarChartView.DataElement(date: nil, xLabel: "Jul", bars: [BarChartView.Bar(value: 20000, color: UIColor.green),
-                                            BarChartView.Bar(value: 0.5555, color: UIColor.blue)])
+    BarChartView.DataSet.DataElement(date: nil, xLabel: "Jan", bars: [BarChartView.DataSet.DataElement.Bar(value: 20000, color: UIColor.green),
+                                                              BarChartView.DataSet.DataElement.Bar(value: 15000, color: UIColor.blue)]),
+    BarChartView.DataSet.DataElement(date: nil, xLabel: "Feb", bars: [BarChartView.DataSet.DataElement.Bar(value: 0, color: UIColor.green)]),
+    BarChartView.DataSet.DataElement(date: nil, xLabel: "Mar", bars: [BarChartView.DataSet.DataElement.Bar(value: 10000, color: UIColor.green),
+                                                              BarChartView.DataSet.DataElement.Bar(value: 5000, color: UIColor.blue)]),
+    BarChartView.DataSet.DataElement(date: nil, xLabel: "Apr", bars: [BarChartView.DataSet.DataElement.Bar(value: 20000, color: UIColor.green),
+                                                              BarChartView.DataSet.DataElement.Bar(value: 15000, color: UIColor.blue)]),
+    BarChartView.DataSet.DataElement(date: nil, xLabel: "May", bars: [BarChartView.DataSet.DataElement.Bar(value: 32000, color: UIColor.green),
+                                                              BarChartView.DataSet.DataElement.Bar(value: 15000, color: UIColor.blue)]),
+    BarChartView.DataSet.DataElement(date: nil, xLabel: "Jun", bars: [BarChartView.DataSet.DataElement.Bar(value: 20000, color: UIColor.green)]),
+    BarChartView.DataSet.DataElement(date: nil, xLabel: "Jul", bars: [BarChartView.DataSet.DataElement.Bar(value: 20000, color: UIColor.green),
+                                                              BarChartView.DataSet.DataElement.Bar(value: 0.5555, color: UIColor.blue)])
     ], selectionColor: UIColor.yellow)
 // swiftlint:enable all
 
