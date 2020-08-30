@@ -142,7 +142,7 @@ public final class BarChartView: UIView {
         let maxValue = dataSet.elements.map { $0.bars.map { $0.value } }.flatMap { $0 }.max() ?? 0.0
 
         dataSet.elements.forEach { element in
-            let parentView = UIView()
+            let parentView = BarParentControl()
             parentView.isUserInteractionEnabled = true
             chartStackView.addArrangedSubview(parentView)
 
@@ -165,7 +165,7 @@ public final class BarChartView: UIView {
         select(element: firstNonZeroElement)
     }
 
-    private func add(label: ChartLabel, parentView: UIView, element: DataSet.DataElement, dataSet: DataSet) {
+    private func add(label: ChartLabel, parentView: BarParentControl, element: DataSet.DataElement, dataSet: DataSet) {
         label.text = element.xLabel
         parentView.addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -175,9 +175,13 @@ public final class BarChartView: UIView {
             label.trailingAnchor.constraint(equalTo: parentView.trailingAnchor)
         ])
 
-        parentView.addTapGestureRecognizer { [weak self] in
-            self?.delegate?.didSelect(dataElement: element, dataSet: dataSet)
+        #if swift(>=5.3)
+        if #available(iOS 14.0, *) {
+            parentView.addAction(UIAction(handler: { [weak self] _ in
+                self?.delegate?.didSelect(dataElement: element, dataSet: dataSet)
+            }), for: .touchUpInside)
         }
+        #endif
     }
 
     private func add(barStackView: UIStackView, label: ChartLabel, parentView: UIView, element: DataSet.DataElement) {
