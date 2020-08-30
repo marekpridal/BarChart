@@ -5,7 +5,7 @@
 //  Created by Marek Přidal on 01/01/2020.
 //  Copyright © 2020 Marek Pridal. All rights reserved.
 //
-
+#if os(iOS)
 import UIKit
 
 final class ChartLabel: UILabel {
@@ -27,3 +27,4 @@ final class ChartLabel: UILabel {
         font = UIFontMetrics.default.scaledFont(for: .systemFont(ofSize: 12, weight: .medium))
     }
 }
+#endif

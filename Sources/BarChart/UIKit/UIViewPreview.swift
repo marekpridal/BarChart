@@ -5,7 +5,7 @@
 //  Created by Marek Přidal on 29/01/2020.
 //  Copyright © 2020 Marek Pridal. All rights reserved.
 //
-
+#if os(iOS)
 import SwiftUI
 
 struct UIViewPreview<View: UIView>: UIViewRepresentable {
@@ -24,3 +24,4 @@ struct UIViewPreview<View: UIView>: UIViewRepresentable {
         view.setContentHuggingPriority(.defaultHigh, for: .vertical)
     }
 }
+#endif

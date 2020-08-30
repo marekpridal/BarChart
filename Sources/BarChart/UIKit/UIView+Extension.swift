@@ -5,7 +5,7 @@
 //  Created by Marek Pridal on 26.08.18.
 //  Copyright © 2018 Marek Pridal. All rights reserved.
 //
-
+#if os(iOS)
 import UIKit
 
 extension UIView {
@@ -40,3 +40,4 @@ fileprivate extension UIView {
         tapAction?()
     }
 }
+#endif

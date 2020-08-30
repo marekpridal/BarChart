@@ -6,6 +6,7 @@
 //  Copyright © 2019 Marek Pridal. All rights reserved.
 //
 
+#if os(iOS)
 import UIKit
 
 public protocol BarChartViewDelegate: class {
@@ -231,4 +232,5 @@ struct BarChartPreview: PreviewProvider {
         .previewLayout(.sizeThatFits)
     }
 }
+#endif
 #endif
