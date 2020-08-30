@@ -13,6 +13,11 @@ public struct BarChart: View {
                 public var id: String {
                     UUID().uuidString
                 }
+
+                public init(value: Double, color: Color) {
+                    self.value = value
+                    self.color = color
+                }
             }
 
             public var id: String {
@@ -27,10 +32,21 @@ public struct BarChart: View {
             public let date: Date?
             public let xLabel: String
             public let bars: [Bar]
+
+            public init(date: Date?, xLabel: String, bars: [BarChart.DataSet.DataElement.Bar]) {
+                self.date = date
+                self.xLabel = xLabel
+                self.bars = bars
+            }
         }
 
         public let elements: [DataElement]
         public let selectionColor: Color?
+
+        public init(elements: [BarChart.DataSet.DataElement], selectionColor: Color?) {
+            self.elements = elements
+            self.selectionColor = selectionColor
+        }
     }
 
     public let dataSet: DataSet

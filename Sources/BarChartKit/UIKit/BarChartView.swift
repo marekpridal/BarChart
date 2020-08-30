@@ -21,6 +21,11 @@ public final class BarChartView: UIView {
             public struct Bar: Equatable {
                 public let value: Double
                 public let color: UIColor
+
+                public init(value: Double, color: UIColor) {
+                    self.value = value
+                    self.color = color
+                }
             }
 
             public static func == (lhs: BarChartView.DataSet.DataElement, rhs: BarChartView.DataSet.DataElement) -> Bool {
@@ -31,10 +36,21 @@ public final class BarChartView: UIView {
             public let date: Date?
             public let xLabel: String
             public let bars: [Bar]
+
+            public init(date: Date?, xLabel: String, bars: [BarChartView.DataSet.DataElement.Bar]) {
+                self.date = date
+                self.xLabel = xLabel
+                self.bars = bars
+            }
         }
 
         public let elements: [DataElement]
         public let selectionColor: UIColor?
+
+        public init(elements: [BarChartView.DataSet.DataElement], selectionColor: UIColor?) {
+            self.elements = elements
+            self.selectionColor = selectionColor
+        }
     }
 
     private struct ElementView {
