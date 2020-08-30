@@ -175,21 +175,9 @@ public final class BarChartView: UIView {
             label.trailingAnchor.constraint(equalTo: parentView.trailingAnchor)
         ])
 
-        #if swift(>=5.3)
-        if #available(iOS 14.0, *) {
-            parentView.addAction(UIAction(handler: { [weak self] _ in
-                self?.delegate?.didSelect(dataElement: element, dataSet: dataSet)
-            }), for: .touchUpInside)
-        } else {
-            parentView.addTapGestureRecognizer { [weak self] in
-                self?.delegate?.didSelect(dataElement: element, dataSet: dataSet)
-            }
-        }
-        #else
-        parentView.addTapGestureRecognizer { [weak self] in
+        parentView.touchHandler = { [weak self] in
             self?.delegate?.didSelect(dataElement: element, dataSet: dataSet)
         }
-        #endif
     }
 
     private func add(barStackView: UIStackView, label: ChartLabel, parentView: UIView, element: DataSet.DataElement) {
