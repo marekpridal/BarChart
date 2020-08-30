@@ -33,7 +33,7 @@ public struct BarChart: View {
     }
 
     public let dataSet: DataSet
-    @Binding public var selectedElement: DataElement
+    @State public var selectedElement: DataElement
 
     private var maxDataSetValue: Double {
         dataSet.elements.flatMap { $0.bars.map { $0.value } }.max() ?? Double.leastNonzeroMagnitude
@@ -51,11 +51,14 @@ public struct BarChart: View {
                                         Rectangle()
                                             .frame(width: 6, height: self.height(for: bar, viewHeight: geometry.size.height, maxValue: self.maxDataSetValue))
                                             .cornerRadius(3, antialiased: false)
-                                            .foregroundColor(bar.color)
+                                            .foregroundColor(self.selectedElement == element ? self.dataSet.selectionColor ?? bar.color : bar.color)
                                 }
                                 .frame(height: geometry.size.height, alignment: .bottom)
                             }
                         }
+                    }
+                    .onTapGesture {
+                        self.selectedElement = element
                     }
                     Text(element.xLabel)
                 }
@@ -95,13 +98,10 @@ fileprivate var mockBarChartDataSet: BarChart.DataSet = BarChart.DataSet(element
 // swiftlint:enable all
 
 struct BarChart_Previews: PreviewProvider {
+    @State static var selectedElement: BarChart.DataElement = mockBarChartDataSet.elements.last!
+
     static var previews: some View {
-        BarChart(dataSet: mockBarChartDataSet, selectedElement: Binding<BarChart.DataElement>(get: { () -> BarChart.DataElement in
-            .init(date: nil, xLabel: "Jul", bars: [BarChart.Bar(value: 20000, color: .green),
-                                                   BarChart.Bar(value: 0.5555, color: .blue)])
-        }, set: { (_) in
-            // DEBUG
-        }))
+        BarChart(dataSet: mockBarChartDataSet, selectedElement: selectedElement)
             .padding(10)
 //            .previewLayout(.sizeThatFits)
             .previewLayout(PreviewLayout.fixed(width: 200, height: 118))
