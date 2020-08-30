@@ -142,7 +142,7 @@ public final class BarChartView: UIView {
         let maxValue = dataSet.elements.map { $0.bars.map { $0.value } }.flatMap { $0 }.max() ?? 0.0
 
         dataSet.elements.forEach { element in
-            let parentView = BarParentControl()
+            let parentView = UIView()
             chartStackView.addArrangedSubview(parentView)
 
             let label = ChartLabel()
@@ -158,7 +158,7 @@ public final class BarChartView: UIView {
         select(element: firstNonZeroElement)
     }
 
-    private func add(label: ChartLabel, parentView: BarParentControl, element: DataSet.DataElement, dataSet: DataSet) {
+    private func add(label: ChartLabel, parentView: UIView, element: DataSet.DataElement, dataSet: DataSet) {
         label.text = element.xLabel
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         parentView.addSubview(label)
@@ -169,10 +169,8 @@ public final class BarChartView: UIView {
             label.trailingAnchor.constraint(equalTo: parentView.trailingAnchor)
         ])
 
-        if #available(iOS 14.0, *) {
-            parentView.addAction(UIAction(handler: { [weak self] _ in
-                self?.delegate?.didSelect(dataElement: element, dataSet: dataSet)
-            }), for: .touchUpInside)
+        parentView.addTapGestureRecognizer { [weak self] in
+            self?.delegate?.didSelect(dataElement: element, dataSet: dataSet)
         }
     }
 
