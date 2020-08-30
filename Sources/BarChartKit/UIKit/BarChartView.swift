@@ -143,6 +143,7 @@ public final class BarChartView: UIView {
 
         dataSet.elements.forEach { element in
             let parentView = UIView()
+            parentView.isUserInteractionEnabled = true
             chartStackView.addArrangedSubview(parentView)
 
             let label = ChartLabel()
@@ -166,7 +167,6 @@ public final class BarChartView: UIView {
 
     private func add(label: ChartLabel, parentView: UIView, element: DataSet.DataElement, dataSet: DataSet) {
         label.text = element.xLabel
-        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         parentView.addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -195,6 +195,7 @@ public final class BarChartView: UIView {
     private func add(barView: UIView, barStackView: UIStackView, bar: DataSet.DataElement.Bar, maxValue: Double) -> UIView {
         let divider: Double = maxValue / bar.value
         let barParentView = UIView()
+        barParentView.isUserInteractionEnabled = false
         barStackView.addArrangedSubview(barParentView)
         barParentView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -202,7 +203,6 @@ public final class BarChartView: UIView {
             barParentView.widthAnchor.constraint(equalToConstant: 6)
         ])
 
-        let barView = UIView()
         barView.layer.cornerRadius = 3
         barView.backgroundColor = bar.color
         barParentView.addSubview(barView)

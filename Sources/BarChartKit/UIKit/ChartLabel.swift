@@ -24,7 +24,7 @@ final class ChartLabel: UILabel {
     }
 
     private func commonInit() {
-        font = UIFontMetrics.default.scaledFont(for: .systemFont(ofSize: 12, weight: .medium))
+        font = UIFont.systemFont(ofSize: 12, weight: .medium)
     }
 }
 #endif
