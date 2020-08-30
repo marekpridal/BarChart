@@ -50,7 +50,7 @@ public struct BarChart: View {
     }
 
     public let dataSet: DataSet
-    @State public var selectedElement: DataSet.DataElement
+    @State public var selectedElement: DataSet.DataElement?  = nil
 
     private var maxDataSetValue: Double {
         dataSet.elements.flatMap { $0.bars.map { $0.value } }.max() ?? Double.leastNonzeroMagnitude
@@ -81,6 +81,11 @@ public struct BarChart: View {
                 }
             }
         }
+    }
+
+    public init(dataSet: BarChart.DataSet, selectedElement: DataSet.DataElement? = nil) {
+        self.dataSet = dataSet
+        self.selectedElement = selectedElement
     }
 
     private func height(for bar: DataSet.DataElement.Bar, viewHeight: CGFloat, maxValue: Double) -> CGFloat {
