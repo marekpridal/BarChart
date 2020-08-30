@@ -78,6 +78,7 @@ public struct BarChart: View {
                         self.selectedElement = element
                     }
                     Text(element.xLabel)
+                        .font(.system(size: 10))
                 }
             }
         }
