@@ -149,9 +149,15 @@ public final class BarChartView: UIView {
             add(label: label, parentView: parentView, element: element, dataSet: dataSet)
 
             let barStackView = UIStackView()
+            barStackView.isUserInteractionEnabled = false
             add(barStackView: barStackView, label: label, parentView: parentView, element: element)
 
-            let barViews = element.bars.compactMap { add(barView: UIView(), barStackView: barStackView, bar: $0, maxValue: maxValue) }
+            let barViews = element.bars.compactMap { bar -> UIView in
+                let view = UIView()
+                view.isUserInteractionEnabled = false
+
+                return add(barView: view, barStackView: barStackView, bar: bar, maxValue: maxValue)
+            }
             elementViews.append(BarChartView.ElementView(bars: barViews))
         }
         guard let firstNonZeroElement = Array(dataSet.elements.reversed()).first(where: { !$0.bars.filter({ $0.value > 0 }).isEmpty }) else { return }
