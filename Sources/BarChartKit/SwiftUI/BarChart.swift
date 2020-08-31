@@ -57,7 +57,7 @@ public struct BarChart: View {
     }
 
     public var body: some View {
-        HStack {
+        HStack(alignment: .firstTextBaseline) {
             ForEach(dataSet.elements) { element in
                 VStack {
                     HStack {
@@ -79,6 +79,7 @@ public struct BarChart: View {
                     }
                     Text(element.xLabel)
                         .font(.system(size: 10))
+                        .lineLimit(1)
                 }
             }
         }
@@ -125,7 +126,7 @@ struct BarChart_Previews: PreviewProvider {
 
     static var previews: some View {
         BarChart(dataSet: mockBarChartDataSet, selectedElement: selectedElement)
-            .padding(10)
+            .padding(5)
 //            .previewLayout(.sizeThatFits)
             .previewLayout(PreviewLayout.fixed(width: 200, height: 118))
     }
