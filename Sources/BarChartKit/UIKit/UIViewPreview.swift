@@ -1,6 +1,5 @@
 //
 //  UIViewPreview.swift
-//  MyExpenses
 //
 //  Created by Marek Přidal on 29/01/2020.
 //  Copyright © 2020 Marek Pridal. All rights reserved.

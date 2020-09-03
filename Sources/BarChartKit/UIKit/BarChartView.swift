@@ -1,6 +1,5 @@
 //
 //  BarChartView.swift
-//  MyExpenses
 //
 //  Created by Marek Pridal on 22/06/2019.
 //  Copyright © 2019 Marek Pridal. All rights reserved.

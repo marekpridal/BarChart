@@ -1,6 +1,5 @@
 //
 //  Array+Extension.swift
-//  MyExpenses
 //
 //  Created by Marek Přidal on 23/12/2019.
 //  Copyright © 2019 Marek Pridal. All rights reserved.
