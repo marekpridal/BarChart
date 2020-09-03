@@ -20,7 +20,7 @@ let package = Package(
         .library(
             name: "BarChartKit-dynamic",
             type: .dynamic,
-            targets: ["BarChartKit"]),
+            targets: ["BarChartKit"])
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.

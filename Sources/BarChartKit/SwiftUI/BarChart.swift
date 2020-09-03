@@ -1,4 +1,3 @@
-
 import SwiftUI
 
 public struct BarChart: View {
@@ -50,7 +49,7 @@ public struct BarChart: View {
     }
 
     public let dataSet: DataSet
-    @State public var selectedElement: DataSet.DataElement?  = nil
+    @State public var selectedElement: DataSet.DataElement?
 
     private var maxDataSetValue: Double {
         dataSet.elements.flatMap { $0.bars.map { $0.value } }.max() ?? Double.leastNonzeroMagnitude
@@ -63,7 +62,7 @@ public struct BarChart: View {
                     HStack {
                         ForEach(element.bars) { bar in
                             GeometryReader { geometry in
-                                VStack() {
+                                VStack {
                                     Spacer()
                                         Rectangle()
                                             .frame(width: 6, height: self.height(for: bar, viewHeight: geometry.size.height, maxValue: self.maxDataSetValue))
