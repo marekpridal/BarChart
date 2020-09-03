@@ -1,0 +1,60 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    name: Publish binaries
+    runs-on: macOS-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Generate Xcode project
+      run: swift package generate-xcodeproj
+
+    - name: Set version
+      run: /usr/libexec/Plistbuddy -c "Set CFBundleVersion ${GITHUB_REF#refs/*/}" LogKit.xcodeproj/LogKit_Info.plist 
+
+    - name: Build
+      run: ./create-xcframework.sh
+
+    - name: Create LogKit.xcframework.zip
+      run: zip -r artifacts/LogKit.xcframework.zip artifacts/LogKit.xcframework
+
+    - name: Upload artifact of LogKit.xcframework
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: LogKit.xcframework
+        path: ./artifacts/LogKit.xcframework
+  
+    - name: Upload artifact of LogKit.xcframework.zip
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: LogKit.xcframework.zip
+        path: ./artifacts/LogKit.xcframework.zip
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset
+      id: upload-release-asset 
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+        asset_path: ./artifacts/LogKit.xcframework.zip
+        asset_name: LogKit.xcframework.zip
+        asset_content_type: application/zip

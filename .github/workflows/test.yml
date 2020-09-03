@@ -1,0 +1,19 @@
+
+name: Test
+
+on:
+  push:
+    branches: '*'
+    tags-ignore: '*'
+
+jobs:
+  test:
+    name: Test
+    runs-on: macOS-latest
+      
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v1
+
+      - name: Test
+        run: swift test -v --enable-test-discovery --enable-code-coverage --sanitize=thread
