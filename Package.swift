@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "BarCharKit",
+    name: "BarChartKit",
     platforms: [
         .macOS(.v10_15),
         .iOS(.v13),
