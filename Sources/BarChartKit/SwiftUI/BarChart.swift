@@ -21,6 +21,10 @@ public struct BarChart: View {
                     self.value = value
                     self.color = color
                 }
+
+                static func == (lhs: Self, rhs: Self) -> Bool {
+                    lhs.id == rhs.id
+                }
             }
 
             public var id: String {
