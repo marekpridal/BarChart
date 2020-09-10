@@ -62,13 +62,12 @@ public struct BarChart: View {
                         ForEach(element.bars) { bar in
                             GeometryReader { geometry in
                                 VStack {
-                                    Spacer()
                                         Rectangle()
                                             .frame(width: 6, height: self.height(for: bar, viewHeight: geometry.size.height, maxValue: self.maxDataSetValue))
                                             .cornerRadius(3, antialiased: false)
                                             .foregroundColor(self.selectedElement == element ? self.dataSet.selectionColor ?? bar.color : bar.color)
                                 }
-                                .frame(height: geometry.size.height, alignment: .bottom)
+                                .frame(maxWidth: .infinity, maxHeight: geometry.size.height, alignment: .bottom)
                             }
                         }
                     }
