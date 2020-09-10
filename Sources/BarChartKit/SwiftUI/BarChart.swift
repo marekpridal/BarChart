@@ -3,9 +3,13 @@ import SwiftUI
 public struct BarChart: View {
 
     // MARK: Structs
-    public struct DataSet: Equatable {
+    public struct DataSet {
         public struct DataElement: Equatable, Identifiable {
-            public struct Bar: Equatable, Identifiable {
+            public static func == (lhs: BarChart.DataSet.DataElement, rhs: BarChart.DataSet.DataElement) -> Bool {
+                lhs.id == rhs.id
+            }
+
+            public struct Bar: Identifiable {
                 public let value: Double
                 public let color: Color
 
@@ -21,11 +25,6 @@ public struct BarChart: View {
 
             public var id: String {
                 xLabel
-            }
-
-            public static func == (lhs: DataElement, rhs: DataElement) -> Bool {
-                return lhs.bars == rhs.bars &&
-                       lhs.xLabel == rhs.xLabel
             }
 
             public let date: Date?
@@ -84,9 +83,9 @@ public struct BarChart: View {
         }
     }
 
-    public init(dataSet: BarChart.DataSet, selectedElement: DataSet.DataElement? = nil) {
+    public init(dataSet: BarChart.DataSet, selectedElement: State<DataSet.DataElement?>) {
         self.dataSet = dataSet
-        self.selectedElement = selectedElement
+        self._selectedElement = selectedElement
     }
 
     private func height(for bar: DataSet.DataElement.Bar, viewHeight: CGFloat, maxValue: Double) -> CGFloat {
@@ -121,10 +120,10 @@ fileprivate var mockBarChartDataSet: BarChart.DataSet = BarChart.DataSet(element
 // swiftlint:enable all
 
 struct BarChart_Previews: PreviewProvider {
-    @State static var selectedElement: BarChart.DataSet.DataElement = mockBarChartDataSet.elements.last!
+    @State static var selectedElement: BarChart.DataSet.DataElement? = mockBarChartDataSet.elements.first
 
     static var previews: some View {
-        BarChart(dataSet: mockBarChartDataSet, selectedElement: selectedElement)
+        BarChart(dataSet: mockBarChartDataSet, selectedElement: _selectedElement)
             .padding(5)
 //            .previewLayout(.sizeThatFits)
             .previewLayout(PreviewLayout.fixed(width: 200, height: 118))
