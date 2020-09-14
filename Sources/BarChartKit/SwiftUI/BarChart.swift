@@ -52,7 +52,7 @@ public struct BarChart: View {
     }
 
     public let dataSet: DataSet
-    @State public var selectedElement: DataSet.DataElement?
+    @Binding public var selectedElement: DataSet.DataElement?
 
     private var maxDataSetValue: Double {
         dataSet.elements.flatMap { $0.bars.map { $0.value } }.max() ?? Double.leastNonzeroMagnitude
@@ -86,7 +86,7 @@ public struct BarChart: View {
         }
     }
 
-    public init(dataSet: BarChart.DataSet, selectedElement: State<DataSet.DataElement?>) {
+    public init(dataSet: BarChart.DataSet, selectedElement: Binding<DataSet.DataElement?>) {
         self.dataSet = dataSet
         self._selectedElement = selectedElement
     }
@@ -122,14 +122,23 @@ fileprivate var mockBarChartDataSet: BarChart.DataSet = BarChart.DataSet(element
     ], selectionColor: Color.yellow)
 // swiftlint:enable all
 
-struct BarChart_Previews: PreviewProvider {
-    @State static var selectedElement: BarChart.DataSet.DataElement? = mockBarChartDataSet.elements.first
+struct ParentView: View {
+    @State private var selectedElement: BarChart.DataSet.DataElement? = mockBarChartDataSet.elements.first
 
+    var body: some View {
+        VStack(spacing: 10) {
+            BarChart(dataSet: mockBarChartDataSet, selectedElement: $selectedElement)
+    //            .previewLayout(.sizeThatFits)
+                .previewLayout(PreviewLayout.fixed(width: 200, height: 118))
+            Text("Selected element \(selectedElement?.xLabel ?? "none")")
+        }
+        .padding()
+    }
+}
+
+struct BarChart_Previews: PreviewProvider {
     static var previews: some View {
-        BarChart(dataSet: mockBarChartDataSet, selectedElement: _selectedElement)
-            .padding(5)
-//            .previewLayout(.sizeThatFits)
-            .previewLayout(PreviewLayout.fixed(width: 200, height: 118))
+        ParentView()
     }
 }
 #endif
