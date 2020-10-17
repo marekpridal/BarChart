@@ -22,6 +22,8 @@ To add a package dependency to your Xcode project, select File > Swift Packages 
 Instead of adding a repository URL, you can search for a package on [GitHub](https://github.com/) or [GitHub Enterprise](https://github.com/enterprise). Add your [GitHub](https://github.com/) or [GitHub Enterprise](https://github.com/enterprise) account in Xcode’s preferences, and a list of package repositories appears as you type. The following screenshot shows the list of repositories for the search term ExamplePackage.
 
 ## Usage
+
+### UIKit
 ```swift
 import BarChartKit
 
@@ -47,4 +49,29 @@ NSLayoutConstraint.activate([
     barChart.topAnchor.constraint(equalTo: view.topAnchor),
     barChart.bottomAnchor.constraint(equalTo: view.bottomAnchor)
 ])
+```
+
+### SwiftUI
+```swift
+import BarChartKit
+
+@State private var selectedElement: BarChart.DataSet.DataElement? = mockBarChartDataSet.elements.first
+
+let mockBarChartDataSet: BarChart.DataSet = BarChart.DataSet(elements: [
+    BarChart.DataSet.DataElement(date: nil, xLabel: "Jan", bars: [BarChart.DataSet.DataElement.Bar(value: 20000, color: Color.green),
+                                                          BarChart.DataSet.DataElement.Bar(value: 15000, color: Color.blue)]),
+    BarChart.DataSet.DataElement(date: nil, xLabel: "Feb", bars: [BarChart.DataSet.DataElement.Bar(value: 0, color: Color.green)]),
+    BarChart.DataSet.DataElement(date: nil, xLabel: "Mar", bars: [BarChart.DataSet.DataElement.Bar(value: 10000, color: Color.green),
+                                                          BarChart.DataSet.DataElement.Bar(value: 5000, color: Color.red)]),
+    BarChart.DataSet.DataElement(date: nil, xLabel: "Apr", bars: [BarChart.DataSet.DataElement.Bar(value: 20000, color: Color.green),
+                                                          BarChart.DataSet.DataElement.Bar(value: 15000, color: Color.blue)]),
+    BarChart.DataSet.DataElement(date: nil, xLabel: "May", bars: [BarChart.DataSet.DataElement.Bar(value: 42000, color: Color.green),
+                                                          BarChart.DataSet.DataElement.Bar(value: 15000, color: Color.blue)]),
+    BarChart.DataSet.DataElement(date: nil, xLabel: "Jun", bars: [BarChart.DataSet.DataElement.Bar(value: 20000, color: Color.green)]),
+    BarChart.DataSet.DataElement(date: nil, xLabel: "Jul", bars: [BarChart.DataSet.DataElement.Bar(value: 20000, color: Color.green),
+                                                          BarChart.DataSet.DataElement.Bar(value: 0.5555, color: Color.blue)])
+    ], selectionColor: Color.yellow)
+
+
+BarChart(dataSet: mockBarChartDataSet, selectedElement: $selectedElement)
 ```
