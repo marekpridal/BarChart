@@ -2,26 +2,17 @@ import SwiftUI
 
 /// Creates a Bar Chart similar to the chart used in iOS Health app
 public struct BarChart: View {
-
     // MARK: Structs
     /// Provides data for the BarChart
     public struct DataSet {
         /// Single data element for BarChart. Can consist of multiple bars
         public struct DataElement: Equatable, Identifiable {
-            public static func == (lhs: BarChart.DataSet.DataElement, rhs: BarChart.DataSet.DataElement) -> Bool {
-                lhs.id == rhs.id
-            }
-            
             /// Single bar to be displayed in the BarChart
             public struct Bar: Identifiable {
                 /// Any floating point number to be represented in the bar
                 public let value: Double
                 /// Default color for the bar in not selected state
                 public let color: Color
-
-                public var id: String {
-                    UUID().uuidString
-                }
                 
                 /// Create a single bar to be displayed in the BarChart
                 /// - Parameters:
@@ -31,14 +22,6 @@ public struct BarChart: View {
                     self.value = value
                     self.color = color
                 }
-
-                static func == (lhs: Self, rhs: Self) -> Bool {
-                    lhs.id == rhs.id
-                }
-            }
-
-            public var id: String {
-                xLabel
             }
 
             public let date: Date?
@@ -124,6 +107,30 @@ public struct BarChart: View {
         } else {
             return height
         }
+    }
+}
+
+extension BarChart.DataSet.DataElement {
+    public var id: String {
+        xLabel
+    }
+}
+
+extension BarChart.DataSet.DataElement {
+    public static func == (lhs: BarChart.DataSet.DataElement, rhs: BarChart.DataSet.DataElement) -> Bool {
+        lhs.id == rhs.id
+    }
+}
+
+extension BarChart.DataSet.DataElement.Bar {
+    public var id: String {
+        UUID().uuidString
+    }
+}
+
+extension BarChart.DataSet.DataElement.Bar {
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.id == rhs.id
     }
 }
 
