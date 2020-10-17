@@ -1,22 +1,32 @@
 import SwiftUI
 
+/// Creates a Bar Chart similar to the chart used in iOS Health app
 public struct BarChart: View {
 
     // MARK: Structs
+    /// Provides data for the BarChart
     public struct DataSet {
+        /// Single data element for BarChart. Can consist of multiple bars
         public struct DataElement: Equatable, Identifiable {
             public static func == (lhs: BarChart.DataSet.DataElement, rhs: BarChart.DataSet.DataElement) -> Bool {
                 lhs.id == rhs.id
             }
-
+            
+            /// Single bar to be displayed in the BarChart
             public struct Bar: Identifiable {
+                /// Any floating point number to be represented in the bar
                 public let value: Double
+                /// Default color for the bar in not selected state
                 public let color: Color
 
                 public var id: String {
                     UUID().uuidString
                 }
-
+                
+                /// Create a single bar to be displayed in the BarChart
+                /// - Parameters:
+                ///   - value: Any floating point number to be represented in the bar
+                ///   - color: Default color for the bar in not selected state
                 public init(value: Double, color: Color) {
                     self.value = value
                     self.color = color
@@ -34,7 +44,12 @@ public struct BarChart: View {
             public let date: Date?
             public let xLabel: String
             public let bars: [Bar]
-
+            
+            /// Create a new data element grouped by common value on the x axis, containing one or more bars.
+            /// - Parameters:
+            ///   - date: Date for the element
+            ///   - xLabel: Label to display on the x axis
+            ///   - bars: Bars to be shown as part of thie element
             public init(date: Date?, xLabel: String, bars: [BarChart.DataSet.DataElement.Bar]) {
                 self.date = date
                 self.xLabel = xLabel
@@ -44,7 +59,11 @@ public struct BarChart: View {
 
         public let elements: [DataElement]
         public let selectionColor: Color?
-
+        
+        /// Create a set of data to be displayed in the BarChart
+        /// - Parameters:
+        ///   - elements: Data to be displayed
+        ///   - selectionColor: Color of the bars when in selected state
         public init(elements: [BarChart.DataSet.DataElement], selectionColor: Color?) {
             self.elements = elements
             self.selectionColor = selectionColor
@@ -85,7 +104,11 @@ public struct BarChart: View {
             }
         }
     }
-
+    
+    /// Create a BarChart similar to the one used in the Health app
+    /// - Parameters:
+    ///   - dataSet: Data to be displayed
+    ///   - selectedElement: Element that has been selected by the user by tapping
     public init(dataSet: BarChart.DataSet, selectedElement: Binding<DataSet.DataElement?>) {
         self.dataSet = dataSet
         self._selectedElement = selectedElement
