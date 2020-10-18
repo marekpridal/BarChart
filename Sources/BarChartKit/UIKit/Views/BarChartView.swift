@@ -208,7 +208,7 @@ public final class BarChartView: UIView {
             limitView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor),
             limitView.bottomAnchor.constraint(equalTo: elementParentView.bottomAnchor, constant: -bottomPadding),
             limitView.leadingAnchor.constraint(equalTo: chartStackView.leadingAnchor),
-            limitView.trailingAnchor.constraint(equalTo: trailingAnchor)
+            limitView.trailingAnchor.constraint(equalTo: chartStackView.trailingAnchor)
         ])
     }
 

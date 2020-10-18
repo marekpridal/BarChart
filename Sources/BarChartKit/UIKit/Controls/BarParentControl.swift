@@ -29,7 +29,6 @@ final class BarParentControl: UIControl {
     }
 
     private func commonInit() {
-        #if swift(>=5.3)
         if #available(iOS 14.0, *) {
             addAction(UIAction(handler: { [weak self] _ in
                 self?.touchHandler?()
@@ -37,9 +36,6 @@ final class BarParentControl: UIControl {
         } else {
             addTarget(self, action: #selector(didTap), for: .touchUpInside)
         }
-        #else
-        addTarget(self, action: #selector(didTap), for: .touchUpInside)
-        #endif
     }
 
     @objc private func didTap() {
