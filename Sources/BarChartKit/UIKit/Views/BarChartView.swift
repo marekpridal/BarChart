@@ -144,6 +144,7 @@ public final class BarChartView: UIView {
             graphInConstruction = false
         }
         chartStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        chartStackView.subviews.forEach { $0.removeFromSuperview() }
         elementViews.removeAll()
 
         var values = dataSet.elements.map { $0.bars.map { $0.value } }.flatMap { $0 }
@@ -174,29 +175,40 @@ public final class BarChartView: UIView {
             elementViews.append(BarChartView.ElementView(bars: barViews))
         }
 
-        if let limit = dataSet.limit {
-            var topPadding = CGFloat(maxValue - limit.value) / (frame.size.height / 0.425)
-            let limitView = LimitView()
-            limitView.label.text = limit.label
-            limitView.label.textColor = limit.color
-            chartStackView.addSubview(limitView)
-            limitView.translatesAutoresizingMaskIntoConstraints = false
-
-            let minimumLimit = frame.size.height * 0.65
-
-            if topPadding > minimumLimit {
-                topPadding = minimumLimit
-            }
-
-            NSLayoutConstraint.activate([
-                limitView.topAnchor.constraint(equalTo: chartStackView.topAnchor, constant: CGFloat(topPadding) - 18),
-                limitView.leadingAnchor.constraint(equalTo: chartStackView.leadingAnchor),
-                limitView.trailingAnchor.constraint(equalTo: trailingAnchor)
-            ])
+        // If limit is set, get parent view of element. It has same dimension for all bars  and is transparent.
+        // It occupies space between ChartLabel and top of ChartStackView and is background of each bar.
+        if let limit = dataSet.limit, let elementParentView = elementViews.first?.bars.first?.superview {
+            draw(limit: limit, elementParentView: elementParentView, maxValue: CGFloat(maxValue))
         }
 
         guard let firstNonZeroElement = Array(dataSet.elements.reversed()).first(where: { !$0.bars.filter({ $0.value > 0 }).isEmpty }) else { return }
         select(element: firstNonZeroElement)
+    }
+
+    private func draw(limit: DataSet.Limit, elementParentView: UIView, maxValue: CGFloat) {
+        elementParentView.setNeedsLayout()
+        elementParentView.layoutIfNeeded()
+
+        let point = elementParentView.bounds.size.height / maxValue
+
+        var bottomPadding = CGFloat(limit.value) * point
+
+        let limitView = LimitView()
+        limitView.label.text = limit.label
+        limitView.label.textColor = limit.color
+        chartStackView.addSubview(limitView)
+        limitView.translatesAutoresizingMaskIntoConstraints = false
+
+        if bottomPadding < 6 {
+            bottomPadding = 6
+        }
+
+        NSLayoutConstraint.activate([
+            limitView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor),
+            limitView.bottomAnchor.constraint(equalTo: elementParentView.bottomAnchor, constant: -bottomPadding),
+            limitView.leadingAnchor.constraint(equalTo: chartStackView.leadingAnchor),
+            limitView.trailingAnchor.constraint(equalTo: trailingAnchor)
+        ])
     }
 
     private func add(label: ChartLabel, parentView: BarParentControl, element: DataSet.DataElement, dataSet: DataSet) {
@@ -273,7 +285,7 @@ fileprivate var mockBarChartDataSet: BarChartView.DataSet? = BarChartView.DataSe
     BarChartView.DataSet.DataElement(date: nil, xLabel: "Jun", bars: [BarChartView.DataSet.DataElement.Bar(value: 20000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0))]),
     BarChartView.DataSet.DataElement(date: nil, xLabel: "Jul", bars: [BarChartView.DataSet.DataElement.Bar(value: 20000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0)),
                                                               BarChartView.DataSet.DataElement.Bar(value: 0.5555, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0))])
-], selectionColor: UIColor(red: 214/255, green: 40/255, blue: 57/255, alpha: 1.0))
+], limit: .init(color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0), label: "YOUR LIMIT", value: 15_010), selectionColor: UIColor(red: 214/255, green: 40/255, blue: 57/255, alpha: 1.0))
 // swiftlint:enable all
 
 import SwiftUI
