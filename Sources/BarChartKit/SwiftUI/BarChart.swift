@@ -6,9 +6,9 @@ public struct BarChart: View {
     /// Provides data for the BarChart
     public struct DataSet {
         /// Single data element for BarChart. Can consist of multiple bars
-        public struct DataElement: Equatable, Identifiable {
+        public struct DataElement {
             /// Single bar to be displayed in the BarChart
-            public struct Bar: Identifiable {
+            public struct Bar {
                 /// Any floating point number to be represented in the bar
                 public let value: Double
                 /// Default color for the bar in not selected state
@@ -110,26 +110,26 @@ public struct BarChart: View {
     }
 }
 
-extension BarChart.DataSet.DataElement {
+public extension BarChart.DataSet.DataElement: Identifiable {
     public var id: String {
         xLabel
     }
 }
 
-extension BarChart.DataSet.DataElement {
+public extension BarChart.DataSet.DataElement: Equatable {
     public static func == (lhs: BarChart.DataSet.DataElement, rhs: BarChart.DataSet.DataElement) -> Bool {
         lhs.id == rhs.id
     }
 }
 
-extension BarChart.DataSet.DataElement.Bar {
+public extension BarChart.DataSet.DataElement.Bar: Identifiable {
     public var id: String {
         UUID().uuidString
     }
 }
 
-extension BarChart.DataSet.DataElement.Bar {
-    static func == (lhs: Self, rhs: Self) -> Bool {
+public extension BarChart.DataSet.DataElement.Bar: Equatable {
+    public static func == (lhs: Self, rhs: Self) -> Bool {
         lhs.id == rhs.id
     }
 }
