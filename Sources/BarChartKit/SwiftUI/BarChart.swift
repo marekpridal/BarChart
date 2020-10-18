@@ -13,7 +13,7 @@ public struct BarChart: View {
                 public let value: Double
                 /// Default color for the bar in not selected state
                 public let color: Color
-                
+
                 /// Create a single bar to be displayed in the BarChart
                 /// - Parameters:
                 ///   - value: Any floating point number to be represented in the bar
@@ -27,7 +27,7 @@ public struct BarChart: View {
             public let date: Date?
             public let xLabel: String
             public let bars: [Bar]
-            
+
             /// Create a new data element grouped by common value on the x axis, containing one or more bars.
             /// - Parameters:
             ///   - date: Date for the element
@@ -42,7 +42,7 @@ public struct BarChart: View {
 
         public let elements: [DataElement]
         public let selectionColor: Color?
-        
+
         /// Create a set of data to be displayed in the BarChart
         /// - Parameters:
         ///   - elements: Data to be displayed
@@ -87,7 +87,7 @@ public struct BarChart: View {
             }
         }
     }
-    
+
     /// Create a BarChart similar to the one used in the Health app
     /// - Parameters:
     ///   - dataSet: Data to be displayed
