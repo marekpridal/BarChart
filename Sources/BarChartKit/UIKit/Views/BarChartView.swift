@@ -196,6 +196,7 @@ public final class BarChartView: UIView {
         let limitView = LimitView()
         limitView.label.text = limit.label
         limitView.label.textColor = limit.color
+        limitView.strokeColor = limit.color
         chartStackView.addSubview(limitView)
         limitView.translatesAutoresizingMaskIntoConstraints = false
 

@@ -13,6 +13,15 @@ final class LimitView: UIView {
         .init()
     }()
 
+    var strokeColor: UIColor {
+        get {
+            UIColor(cgColor: dashedView.strokeColor)
+        }
+        set {
+            dashedView.strokeColor = newValue.cgColor
+        }
+    }
+
     private lazy var dashedView: DashedView = {
         .init()
     }()
