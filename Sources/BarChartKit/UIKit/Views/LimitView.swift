@@ -1,0 +1,71 @@
+//
+//  LimitView.swift
+//  
+//
+//  Created by Marek Přidal on 18/10/2020.
+//
+
+#if os(iOS)
+import UIKit
+
+final class LimitView: UIView {
+    lazy var label: LimitLabel = {
+        .init()
+    }()
+
+    private lazy var dashedView: DashedView = {
+        .init()
+    }()
+
+    // MARK: - Init
+    public required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+
+    public override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
+    }
+
+    // MARK: - Override
+    public override func awakeFromNib() {
+        super.awakeFromNib()
+        commonInit()
+    }
+
+    private func commonInit() {
+        addSubview(label)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            label.topAnchor.constraint(equalTo: topAnchor),
+            label.trailingAnchor.constraint(equalTo: trailingAnchor)
+        ])
+
+        addSubview(dashedView)
+        dashedView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            dashedView.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 2),
+            dashedView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            dashedView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            dashedView.trailingAnchor.constraint(equalTo: label.trailingAnchor),
+            dashedView.heightAnchor.constraint(equalToConstant: 1)
+        ])
+    }
+}
+
+#if DEBUG
+import SwiftUI
+
+struct LimitViewPreview: PreviewProvider {
+    static var previews: some View {
+        UIViewPreview {
+            let limitView = LimitView()
+            limitView.label.text = "YOUR LIMIT"
+            return limitView
+        }
+        .previewLayout(.fixed(width: 375, height: 20))
+    }
+}
+
+#endif
+#endif
