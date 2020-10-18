@@ -11,6 +11,9 @@ jobs:
     steps:
       - name: Checkout branch
         uses: actions/checkout@v1
+
+      - name: Select Xcode 12
+        run: xcode-select --switch /Applications/Xcode_12.app
   
       - name: Build
         run: swift build -v
