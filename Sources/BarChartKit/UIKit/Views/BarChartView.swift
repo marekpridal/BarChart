@@ -43,11 +43,19 @@ public final class BarChartView: UIView {
             }
         }
 
+        public struct Limit: Equatable {
+            public let color: UIColor
+            public let label: String?
+            public let value: Double
+        }
+
         public let elements: [DataElement]
+        public let limit: Limit?
         public let selectionColor: UIColor?
 
-        public init(elements: [BarChartView.DataSet.DataElement], selectionColor: UIColor?) {
+        public init(elements: [BarChartView.DataSet.DataElement], limit: Limit?, selectionColor: UIColor?) {
             self.elements = elements
+            self.limit = limit
             self.selectionColor = selectionColor
         }
     }
@@ -138,7 +146,12 @@ public final class BarChartView: UIView {
         chartStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         elementViews.removeAll()
 
-        let maxValue = dataSet.elements.map { $0.bars.map { $0.value } }.flatMap { $0 }.max() ?? 0.0
+        var values = dataSet.elements.map { $0.bars.map { $0.value } }.flatMap { $0 }
+        if let limit = dataSet.limit {
+            values.append(limit.value)
+        }
+
+        let maxValue = values.max() ?? 0.0
 
         dataSet.elements.forEach { element in
             let parentView = BarParentControl()
@@ -160,6 +173,28 @@ public final class BarChartView: UIView {
             }
             elementViews.append(BarChartView.ElementView(bars: barViews))
         }
+
+        if let limit = dataSet.limit {
+            var topPadding = CGFloat(maxValue - limit.value) / (frame.size.height / 0.425)
+            let limitView = LimitView()
+            limitView.label.text = limit.label
+            limitView.label.textColor = limit.color
+            chartStackView.addSubview(limitView)
+            limitView.translatesAutoresizingMaskIntoConstraints = false
+
+            let minimumLimit = frame.size.height * 0.65
+
+            if topPadding > minimumLimit {
+                topPadding = minimumLimit
+            }
+
+            NSLayoutConstraint.activate([
+                limitView.topAnchor.constraint(equalTo: chartStackView.topAnchor, constant: CGFloat(topPadding) - 18),
+                limitView.leadingAnchor.constraint(equalTo: chartStackView.leadingAnchor),
+                limitView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            ])
+        }
+
         guard let firstNonZeroElement = Array(dataSet.elements.reversed()).first(where: { !$0.bars.filter({ $0.value > 0 }).isEmpty }) else { return }
         select(element: firstNonZeroElement)
     }
@@ -233,12 +268,12 @@ fileprivate var mockBarChartDataSet: BarChartView.DataSet? = BarChartView.DataSe
                                                               BarChartView.DataSet.DataElement.Bar(value: 5000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0))]),
     BarChartView.DataSet.DataElement(date: nil, xLabel: "Apr", bars: [BarChartView.DataSet.DataElement.Bar(value: 20000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0)),
                                                               BarChartView.DataSet.DataElement.Bar(value: 15000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0))]),
-    BarChartView.DataSet.DataElement(date: nil, xLabel: "May", bars: [BarChartView.DataSet.DataElement.Bar(value: 32000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0)),
+    BarChartView.DataSet.DataElement(date: nil, xLabel: "May", bars: [BarChartView.DataSet.DataElement.Bar(value: 32010, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0)),
                                                               BarChartView.DataSet.DataElement.Bar(value: 15000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0))]),
     BarChartView.DataSet.DataElement(date: nil, xLabel: "Jun", bars: [BarChartView.DataSet.DataElement.Bar(value: 20000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0))]),
     BarChartView.DataSet.DataElement(date: nil, xLabel: "Jul", bars: [BarChartView.DataSet.DataElement.Bar(value: 20000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0)),
                                                               BarChartView.DataSet.DataElement.Bar(value: 0.5555, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0))])
-    ], selectionColor: UIColor(red: 214/255, green: 40/255, blue: 57/255, alpha: 1.0))
+], limit: .init(color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0), label: "YOUR LIMIT", value: 3000), selectionColor: UIColor(red: 214/255, green: 40/255, blue: 57/255, alpha: 1.0))
 // swiftlint:enable all
 
 import SwiftUI

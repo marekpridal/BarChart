@@ -20,6 +20,7 @@ final class LimitView: UIView {
     // MARK: - Init
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        commonInit()
     }
 
     public override init(frame: CGRect) {
@@ -38,7 +39,9 @@ final class LimitView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             label.topAnchor.constraint(equalTo: topAnchor),
-            label.trailingAnchor.constraint(equalTo: trailingAnchor)
+            label.trailingAnchor.constraint(equalTo: trailingAnchor),
+            label.heightAnchor.constraint(equalToConstant: 16),
+            label.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 15)
         ])
 
         addSubview(dashedView)
