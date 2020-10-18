@@ -53,7 +53,7 @@ public final class BarChartView: UIView {
         public let limit: Limit?
         public let selectionColor: UIColor?
 
-        public init(elements: [BarChartView.DataSet.DataElement], limit: Limit?, selectionColor: UIColor?) {
+        public init(elements: [BarChartView.DataSet.DataElement], limit: Limit? = nil, selectionColor: UIColor?) {
             self.elements = elements
             self.limit = limit
             self.selectionColor = selectionColor
@@ -273,7 +273,7 @@ fileprivate var mockBarChartDataSet: BarChartView.DataSet? = BarChartView.DataSe
     BarChartView.DataSet.DataElement(date: nil, xLabel: "Jun", bars: [BarChartView.DataSet.DataElement.Bar(value: 20000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0))]),
     BarChartView.DataSet.DataElement(date: nil, xLabel: "Jul", bars: [BarChartView.DataSet.DataElement.Bar(value: 20000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0)),
                                                               BarChartView.DataSet.DataElement.Bar(value: 0.5555, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0))])
-], limit: .init(color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0), label: "YOUR LIMIT", value: 3000), selectionColor: UIColor(red: 214/255, green: 40/255, blue: 57/255, alpha: 1.0))
+], selectionColor: UIColor(red: 214/255, green: 40/255, blue: 57/255, alpha: 1.0))
 // swiftlint:enable all
 
 import SwiftUI
