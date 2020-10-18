@@ -110,25 +110,25 @@ public struct BarChart: View {
     }
 }
 
-public extension BarChart.DataSet.DataElement: Identifiable {
+extension BarChart.DataSet.DataElement: Identifiable {
     public var id: String {
         xLabel
     }
 }
 
-public extension BarChart.DataSet.DataElement: Equatable {
+extension BarChart.DataSet.DataElement: Equatable {
     public static func == (lhs: BarChart.DataSet.DataElement, rhs: BarChart.DataSet.DataElement) -> Bool {
         lhs.id == rhs.id
     }
 }
 
-public extension BarChart.DataSet.DataElement.Bar: Identifiable {
+extension BarChart.DataSet.DataElement.Bar: Identifiable {
     public var id: String {
         UUID().uuidString
     }
 }
 
-public extension BarChart.DataSet.DataElement.Bar: Equatable {
+extension BarChart.DataSet.DataElement.Bar: Equatable {
     public static func == (lhs: Self, rhs: Self) -> Bool {
         lhs.id == rhs.id
     }
