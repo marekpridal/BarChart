@@ -191,7 +191,7 @@ public final class BarChartView: UIView {
             NSLayoutConstraint.activate([
                 limitView.topAnchor.constraint(equalTo: chartStackView.topAnchor, constant: CGFloat(topPadding) - 18),
                 limitView.leadingAnchor.constraint(equalTo: chartStackView.leadingAnchor),
-                limitView.trailingAnchor.constraint(equalTo: trailingAnchor),
+                limitView.trailingAnchor.constraint(equalTo: trailingAnchor)
             ])
         }
 
