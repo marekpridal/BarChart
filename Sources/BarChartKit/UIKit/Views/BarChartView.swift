@@ -47,6 +47,12 @@ public final class BarChartView: UIView {
             public let color: UIColor
             public let label: String?
             public let value: Double
+
+            public init(color: UIColor, label: String?, value: Double) {
+                self.color = color
+                self.label = label
+                self.value = value
+            }
         }
 
         public let elements: [DataElement]
