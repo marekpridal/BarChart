@@ -60,7 +60,7 @@ public struct BarChart: View {
     private var maxDataSetValue: Double {
         dataSet.elements.flatMap { $0.bars.map { $0.value } }.max() ?? Double.leastNonzeroMagnitude
     }
-    
+
     public var body: some View {
         HStack(alignment: .firstTextBaseline) {
             ForEach(dataSet.elements) { element in

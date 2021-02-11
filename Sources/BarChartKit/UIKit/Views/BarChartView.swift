@@ -78,7 +78,7 @@ public final class BarChartView: UIView {
             }
         }
     }
-    
+
     public var barWidth: CGFloat = 6 {
         didSet {
             DispatchQueue.main.async { [weak self] in
