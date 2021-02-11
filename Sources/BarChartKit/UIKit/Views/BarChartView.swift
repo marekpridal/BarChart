@@ -78,6 +78,14 @@ public final class BarChartView: UIView {
             }
         }
     }
+    
+    public var barWidth: CGFloat = 6 {
+        didSet {
+            DispatchQueue.main.async { [weak self] in
+                self?.setNeedsLayout()
+            }
+        }
+    }
 
     public weak var delegate: BarChartViewDelegate?
 
@@ -206,8 +214,8 @@ public final class BarChartView: UIView {
         chartStackView.addSubview(limitView)
         limitView.translatesAutoresizingMaskIntoConstraints = false
 
-        if bottomPadding < 6 {
-            bottomPadding = 6
+        if bottomPadding < barWidth {
+            bottomPadding = barWidth
         }
 
         NSLayoutConstraint.activate([
@@ -253,10 +261,10 @@ public final class BarChartView: UIView {
         barParentView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             barParentView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.7),
-            barParentView.widthAnchor.constraint(equalToConstant: 6)
+            barParentView.widthAnchor.constraint(equalToConstant: barWidth)
         ])
 
-        barView.layer.cornerRadius = 3
+        barView.layer.cornerRadius = barWidth/2
         barView.backgroundColor = bar.color
         barParentView.addSubview(barView)
         barView.translatesAutoresizingMaskIntoConstraints = false
@@ -265,8 +273,8 @@ public final class BarChartView: UIView {
             barView.trailingAnchor.constraint(equalTo: barParentView.trailingAnchor),
             barView.leadingAnchor.constraint(equalTo: barParentView.leadingAnchor)
         ])
-        if (self.frame.size.height / 1.3) / CGFloat(divider) < 6 || maxValue < 1 {
-            barView.heightAnchor.constraint(equalToConstant: 6).isActive = true
+        if (self.frame.size.height / 1.3) / CGFloat(divider) < barWidth || maxValue < 1 {
+            barView.heightAnchor.constraint(equalToConstant: barWidth).isActive = true
         } else if self.frame.size.height / CGFloat(divider) > superview?.frame.size.height ?? 0.0 {
             barView.heightAnchor.constraint(equalTo: barParentView.heightAnchor).isActive = true
         } else {
