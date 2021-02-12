@@ -71,7 +71,7 @@ public struct BarChart: View {
                                 VStack {
                                         Rectangle()
                                             .frame(width: barWidth, height: self.height(for: bar, viewHeight: geometry.size.height, maxValue: self.maxDataSetValue))
-                                            .cornerRadius(barWidth/2, antialiased: false)
+                                            .cornerRadius(barWidth / 2, antialiased: false)
                                             .foregroundColor(self.selectedElement == element ? self.dataSet.selectionColor ?? bar.color : bar.color)
                                 }
                                 .frame(maxWidth: .infinity, maxHeight: geometry.size.height, alignment: .bottom)
@@ -93,7 +93,7 @@ public struct BarChart: View {
     /// - Parameters:
     ///   - dataSet: Data to be displayed
     ///   - selectedElement: Element that has been selected by the user by tapping
-    public init(dataSet: BarChart.DataSet, selectedElement: Binding<DataSet.DataElement?>, barWidth: CGFloat = 16) {
+    public init(dataSet: BarChart.DataSet, selectedElement: Binding<DataSet.DataElement?>, barWidth: CGFloat = 6) {
         self.dataSet = dataSet
         self._selectedElement = selectedElement
         self.barWidth = barWidth

@@ -264,7 +264,7 @@ public final class BarChartView: UIView {
             barParentView.widthAnchor.constraint(equalToConstant: barWidth)
         ])
 
-        barView.layer.cornerRadius = barWidth/2
+        barView.layer.cornerRadius = barWidth / 2
         barView.backgroundColor = bar.color
         barParentView.addSubview(barView)
         barView.translatesAutoresizingMaskIntoConstraints = false
