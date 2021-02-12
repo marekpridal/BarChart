@@ -55,6 +55,7 @@ public struct BarChart: View {
 
     public let dataSet: DataSet
     @Binding public var selectedElement: DataSet.DataElement?
+    public let barWidth: CGFloat
 
     private var maxDataSetValue: Double {
         dataSet.elements.flatMap { $0.bars.map { $0.value } }.max() ?? Double.leastNonzeroMagnitude
@@ -69,8 +70,8 @@ public struct BarChart: View {
                             GeometryReader { geometry in
                                 VStack {
                                         Rectangle()
-                                            .frame(width: 6, height: self.height(for: bar, viewHeight: geometry.size.height, maxValue: self.maxDataSetValue))
-                                            .cornerRadius(3, antialiased: false)
+                                            .frame(width: barWidth, height: self.height(for: bar, viewHeight: geometry.size.height, maxValue: self.maxDataSetValue))
+                                            .cornerRadius(barWidth / 2, antialiased: false)
                                             .foregroundColor(self.selectedElement == element ? self.dataSet.selectionColor ?? bar.color : bar.color)
                                 }
                                 .frame(maxWidth: .infinity, maxHeight: geometry.size.height, alignment: .bottom)
@@ -92,16 +93,17 @@ public struct BarChart: View {
     /// - Parameters:
     ///   - dataSet: Data to be displayed
     ///   - selectedElement: Element that has been selected by the user by tapping
-    public init(dataSet: BarChart.DataSet, selectedElement: Binding<DataSet.DataElement?>) {
+    public init(dataSet: BarChart.DataSet, selectedElement: Binding<DataSet.DataElement?>, barWidth: CGFloat = 6) {
         self.dataSet = dataSet
         self._selectedElement = selectedElement
+        self.barWidth = barWidth
     }
 
     private func height(for bar: DataSet.DataElement.Bar, viewHeight: CGFloat, maxValue: Double) -> CGFloat {
         let height = viewHeight * CGFloat(bar.value / self.maxDataSetValue)
 
-        if height < 6.0 {
-            return 6.0
+        if height < barWidth {
+            return barWidth
         } else if height >= viewHeight {
             return viewHeight
         } else {
@@ -157,7 +159,9 @@ struct ParentView: View {
 
     var body: some View {
         VStack(spacing: 10) {
-            BarChart(dataSet: mockBarChartDataSet, selectedElement: $selectedElement)
+            BarChart(dataSet: mockBarChartDataSet,
+                     selectedElement: $selectedElement,
+                     barWidth: 16)
     //            .previewLayout(.sizeThatFits)
                 .previewLayout(PreviewLayout.fixed(width: 200, height: 118))
             Text("Selected element \(selectedElement?.xLabel ?? "none")")
