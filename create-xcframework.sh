@@ -48,6 +48,17 @@ SKIP_INSTALL=NO \
 BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
 APPLICATION_EXTENSION_API_ONLY=YES
 
+xcodebuild archive \
+-project BarChartKit.xcodeproj \
+-scheme BarChartKit-Package \
+-configuration Release \
+-destination 'generic/platform=macOS,variant=Mac Catalyst' \
+-archivePath "$PWD/archives/BarChartKit-macCatalyst" \
+SKIP_INSTALL=NO \
+BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
+APPLICATION_EXTENSION_API_ONLY=YES \
+SUPPORTS_MACCATALYST=YES
+
 xcodebuild -create-xcframework \
 -framework "$PWD/archives/BarChartKit-iOS.xcarchive/Products/Library/Frameworks/BarChartKit.framework" \
 -debug-symbols "$PWD/archives/BarChartKit-iOS.xcarchive/dSYMs/BarChartKit.framework.dSYM" \
@@ -59,4 +70,6 @@ xcodebuild -create-xcframework \
 -debug-symbols "$PWD/archives/BarChartKit-watchOS-Simulator.xcarchive/dSYMs/BarChartKit.framework.dSYM" \
 -framework "$PWD/archives/BarChartKit-macOS.xcarchive/Products/Library/Frameworks/BarChartKit.framework" \
 -debug-symbols "$PWD/archives/BarChartKit-macOS.xcarchive/dSYMs/BarChartKit.framework.dSYM" \
+-framework "$PWD/archives/BarChartKit-macCatalyst.xcarchive/Products/Library/Frameworks/BarChartKit.framework" \
+-debug-symbols "$PWD/archives/BarChartKit-macCatalyst.xcarchive/dSYMs/BarChartKit.framework.dSYM" \
 -output artifacts/BarChartKit.xcframework
