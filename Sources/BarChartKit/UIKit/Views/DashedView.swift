@@ -23,7 +23,7 @@ final class DashedView: UIView {
 
         dashedLayer?.removeFromSuperlayer()
 
-        //Create a CAShapeLayer
+        // Create a CAShapeLayer
         let shapeLayer = CAShapeLayer()
         shapeLayer.strokeColor = strokeColor
         shapeLayer.lineWidth = 2

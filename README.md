@@ -28,14 +28,19 @@ Instead of adding a repository URL, you can search for a package on [GitHub](htt
 import BarChartKit
 
 let mockBarChartDataSet: BarChartView.DataSet? = BarChartView.DataSet(elements: [
-    BarChartView.DataSet.DataElement(date: nil, xLabel: "Jan", bars: [BarChartView.DataSet.DataElement.Bar(value: 20000, color: UIColor.green), BarChartView.DataSet.DataElement.Bar(value: 15000, color: UIColor.blue)]),
-    BarChartView.DataSet.DataElement(date: nil, xLabel: "Feb", bars: [BarChartView.DataSet.DataElement.Bar(value: 0, color: UIColor.green)]),
-    BarChartView.DataSet.DataElement(date: nil, xLabel: "Mar", bars: [BarChartView.DataSet.DataElement.Bar(value: 10000, color: UIColor.green), BarChartView.DataSet.DataElement.Bar(value: 5000, color: UIColor.blue)]),
-    BarChartView.DataSet.DataElement(date: nil, xLabel: "Apr", bars: [BarChartView.DataSet.DataElement.Bar(value: 20000, color: UIColor.green), BarChartView.DataSet.DataElement.Bar(value: 15000, color: UIColor.blue)]),
-    BarChartView.DataSet.DataElement(date: nil, xLabel: "May", bars: [BarChartView.DataSet.DataElement.Bar(value: 32000, color: UIColor.green), BarChartView.DataSet.DataElement.Bar(value: 15000, color: UIColor.blue)]),
-    BarChartView.DataSet.DataElement(date: nil, xLabel: "Jun", bars: [BarChartView.DataSet.DataElement.Bar(value: 20000, color: UIColor.green)]),
-    BarChartView.DataSet.DataElement(date: nil, xLabel: "Jul", bars: [BarChartView.DataSet.DataElement.Bar(value: 20000, color: UIColor.green), BarChartView.DataSet.DataElement.Bar(value: 0.5555, color: UIColor.blue)])
-    ], selectionColor: UIColor.yellow)
+    BarChartView.DataSet.DataElement(date: nil, xLabel: "Jan", bars: [BarChartView.DataSet.DataElement.Bar(value: 20000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0), selectionColor: UIColor(red: 214/255, green: 40/255, blue: 57/255, alpha: 1.0)),
+                                                              BarChartView.DataSet.DataElement.Bar(value: 15000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0), selectionColor: UIColor(red: 214/255, green: 40/255, blue: 57/255, alpha: 1.0))]),
+    BarChartView.DataSet.DataElement(date: nil, xLabel: "Feb", bars: [BarChartView.DataSet.DataElement.Bar(value: 0, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0), selectionColor: UIColor(red: 214/255, green: 40/255, blue: 57/255, alpha: 1.0))]),
+    BarChartView.DataSet.DataElement(date: nil, xLabel: "Mar", bars: [BarChartView.DataSet.DataElement.Bar(value: 10000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0), selectionColor: UIColor(red: 214/255, green: 40/255, blue: 57/255, alpha: 1.0)),
+                                                              BarChartView.DataSet.DataElement.Bar(value: 5000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0), selectionColor: UIColor(red: 214/255, green: 40/255, blue: 57/255, alpha: 1.0))]),
+    BarChartView.DataSet.DataElement(date: nil, xLabel: "Apr", bars: [BarChartView.DataSet.DataElement.Bar(value: 20000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0), selectionColor: UIColor(red: 214/255, green: 40/255, blue: 57/255, alpha: 1.0)),
+                                                              BarChartView.DataSet.DataElement.Bar(value: 15000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0), selectionColor: UIColor(red: 214/255, green: 40/255, blue: 57/255, alpha: 1.0))]),
+    BarChartView.DataSet.DataElement(date: nil, xLabel: "May", bars: [BarChartView.DataSet.DataElement.Bar(value: 32010, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0), selectionColor: UIColor(red: 214/255, green: 40/255, blue: 57/255, alpha: 1.0)),
+                                                              BarChartView.DataSet.DataElement.Bar(value: 15000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0), selectionColor: UIColor(red: 214/255, green: 40/255, blue: 57/255, alpha: 1.0))]),
+    BarChartView.DataSet.DataElement(date: nil, xLabel: "Jun", bars: [BarChartView.DataSet.DataElement.Bar(value: 20000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0), selectionColor: UIColor(red: 214/255, green: 40/255, blue: 57/255, alpha: 1.0))]),
+    BarChartView.DataSet.DataElement(date: nil, xLabel: "Jul", bars: [BarChartView.DataSet.DataElement.Bar(value: 20000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0), selectionColor: UIColor.systemGreen),
+                                                                      BarChartView.DataSet.DataElement.Bar(value: 10000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0), selectionColor: UIColor.systemBlue)])
+], limit: .init(color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0), label: "YOUR LIMIT", value: 15_010))
 
 
 let barChart = BarChartView()
@@ -58,19 +63,19 @@ import BarChartKit
 @State private var selectedElement: BarChart.DataSet.DataElement? = mockBarChartDataSet.elements.first
 
 let mockBarChartDataSet: BarChart.DataSet = BarChart.DataSet(elements: [
-    BarChart.DataSet.DataElement(date: nil, xLabel: "Jan", bars: [BarChart.DataSet.DataElement.Bar(value: 20000, color: Color.green),
-                                                          BarChart.DataSet.DataElement.Bar(value: 15000, color: Color.blue)]),
+    BarChart.DataSet.DataElement(date: nil, xLabel: "Jan", bars: [BarChart.DataSet.DataElement.Bar(value: 20000, color: Color.green, selectionColor: Color.yellow),
+                                                          BarChart.DataSet.DataElement.Bar(value: 15000, color: Color.blue, selectionColor: Color.yellow)]),
     BarChart.DataSet.DataElement(date: nil, xLabel: "Feb", bars: [BarChart.DataSet.DataElement.Bar(value: 0, color: Color.green)]),
     BarChart.DataSet.DataElement(date: nil, xLabel: "Mar", bars: [BarChart.DataSet.DataElement.Bar(value: 10000, color: Color.green),
                                                           BarChart.DataSet.DataElement.Bar(value: 5000, color: Color.red)]),
     BarChart.DataSet.DataElement(date: nil, xLabel: "Apr", bars: [BarChart.DataSet.DataElement.Bar(value: 20000, color: Color.green),
                                                           BarChart.DataSet.DataElement.Bar(value: 15000, color: Color.blue)]),
-    BarChart.DataSet.DataElement(date: nil, xLabel: "May", bars: [BarChart.DataSet.DataElement.Bar(value: 42000, color: Color.green),
-                                                          BarChart.DataSet.DataElement.Bar(value: 15000, color: Color.blue)]),
-    BarChart.DataSet.DataElement(date: nil, xLabel: "Jun", bars: [BarChart.DataSet.DataElement.Bar(value: 20000, color: Color.green)]),
-    BarChart.DataSet.DataElement(date: nil, xLabel: "Jul", bars: [BarChart.DataSet.DataElement.Bar(value: 20000, color: Color.green),
-                                                          BarChart.DataSet.DataElement.Bar(value: 0.5555, color: Color.blue)])
-    ], selectionColor: Color.yellow)
+    BarChart.DataSet.DataElement(date: nil, xLabel: "May", bars: [BarChart.DataSet.DataElement.Bar(value: 42000, color: Color.green, selectionColor: Color.red),
+                                                          BarChart.DataSet.DataElement.Bar(value: 15000, color: Color.blue, selectionColor: Color.yellow)]),
+    BarChart.DataSet.DataElement(date: nil, xLabel: "Jun", bars: [BarChart.DataSet.DataElement.Bar(value: 20000, color: Color.green, selectionColor: Color.yellow)]),
+    BarChart.DataSet.DataElement(date: nil, xLabel: "Jul", bars: [BarChart.DataSet.DataElement.Bar(value: 20000, color: Color.green, selectionColor: Color.yellow),
+                                                          BarChart.DataSet.DataElement.Bar(value: 0.5555, color: Color.blue, selectionColor: Color.red)])
+    ])
 
 
 BarChart(dataSet: mockBarChartDataSet, selectedElement: $selectedElement)

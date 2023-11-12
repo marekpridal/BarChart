@@ -11,7 +11,10 @@ jobs:
     runs-on: macOS-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v4
+
+    - name: Set Xcode version
+      run: sudo xcode-select --switch /Applications/Xcode_14.2.app
 
     - name: Generate Xcode project
       run: swift package generate-xcodeproj

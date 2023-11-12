@@ -20,10 +20,12 @@ public final class BarChartView: UIView {
             public struct Bar: Equatable {
                 public let value: Double
                 public let color: UIColor
+                public let selectionColor: UIColor
 
-                public init(value: Double, color: UIColor) {
+                public init(value: Double, color: UIColor, selectionColor: UIColor) {
                     self.value = value
                     self.color = color
+                    self.selectionColor = selectionColor
                 }
             }
 
@@ -57,12 +59,10 @@ public final class BarChartView: UIView {
 
         public let elements: [DataElement]
         public let limit: Limit?
-        public let selectionColor: UIColor?
 
-        public init(elements: [BarChartView.DataSet.DataElement], limit: Limit? = nil, selectionColor: UIColor?) {
+        public init(elements: [BarChartView.DataSet.DataElement], limit: Limit? = nil) {
             self.elements = elements
             self.limit = limit
-            self.selectionColor = selectionColor
         }
     }
 
@@ -123,7 +123,10 @@ public final class BarChartView: UIView {
 
     public func select(index: Int) {
         deselectAll()
-        elementViews.safe(at: index)?.bars.forEach { $0.backgroundColor = dataSet?.selectionColor }
+        let dataElement = dataSet?.elements.safe(at: index)
+        elementViews.safe(at: index)?.bars.enumerated().forEach({ offsetElementView, elementView in
+            elementView.backgroundColor = dataElement?.bars.safe(at: offsetElementView)?.selectionColor
+        })
     }
 
     public func deselectAll() {
@@ -288,19 +291,19 @@ public final class BarChartView: UIView {
 #if DEBUG
 // swiftlint:disable all
 fileprivate var mockBarChartDataSet: BarChartView.DataSet? = BarChartView.DataSet(elements: [
-    BarChartView.DataSet.DataElement(date: nil, xLabel: "Jan", bars: [BarChartView.DataSet.DataElement.Bar(value: 20000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0)),
-                                                              BarChartView.DataSet.DataElement.Bar(value: 15000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0))]),
-    BarChartView.DataSet.DataElement(date: nil, xLabel: "Feb", bars: [BarChartView.DataSet.DataElement.Bar(value: 0, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0))]),
-    BarChartView.DataSet.DataElement(date: nil, xLabel: "Mar", bars: [BarChartView.DataSet.DataElement.Bar(value: 10000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0)),
-                                                              BarChartView.DataSet.DataElement.Bar(value: 5000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0))]),
-    BarChartView.DataSet.DataElement(date: nil, xLabel: "Apr", bars: [BarChartView.DataSet.DataElement.Bar(value: 20000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0)),
-                                                              BarChartView.DataSet.DataElement.Bar(value: 15000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0))]),
-    BarChartView.DataSet.DataElement(date: nil, xLabel: "May", bars: [BarChartView.DataSet.DataElement.Bar(value: 32010, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0)),
-                                                              BarChartView.DataSet.DataElement.Bar(value: 15000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0))]),
-    BarChartView.DataSet.DataElement(date: nil, xLabel: "Jun", bars: [BarChartView.DataSet.DataElement.Bar(value: 20000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0))]),
-    BarChartView.DataSet.DataElement(date: nil, xLabel: "Jul", bars: [BarChartView.DataSet.DataElement.Bar(value: 20000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0)),
-                                                              BarChartView.DataSet.DataElement.Bar(value: 0.5555, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0))])
-], limit: .init(color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0), label: "YOUR LIMIT", value: 15_010), selectionColor: UIColor(red: 214/255, green: 40/255, blue: 57/255, alpha: 1.0))
+    BarChartView.DataSet.DataElement(date: nil, xLabel: "Jan", bars: [BarChartView.DataSet.DataElement.Bar(value: 20000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0), selectionColor: UIColor(red: 214/255, green: 40/255, blue: 57/255, alpha: 1.0)),
+                                                              BarChartView.DataSet.DataElement.Bar(value: 15000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0), selectionColor: UIColor(red: 214/255, green: 40/255, blue: 57/255, alpha: 1.0))]),
+    BarChartView.DataSet.DataElement(date: nil, xLabel: "Feb", bars: [BarChartView.DataSet.DataElement.Bar(value: 0, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0), selectionColor: UIColor(red: 214/255, green: 40/255, blue: 57/255, alpha: 1.0))]),
+    BarChartView.DataSet.DataElement(date: nil, xLabel: "Mar", bars: [BarChartView.DataSet.DataElement.Bar(value: 10000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0), selectionColor: UIColor(red: 214/255, green: 40/255, blue: 57/255, alpha: 1.0)),
+                                                              BarChartView.DataSet.DataElement.Bar(value: 5000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0), selectionColor: UIColor(red: 214/255, green: 40/255, blue: 57/255, alpha: 1.0))]),
+    BarChartView.DataSet.DataElement(date: nil, xLabel: "Apr", bars: [BarChartView.DataSet.DataElement.Bar(value: 20000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0), selectionColor: UIColor(red: 214/255, green: 40/255, blue: 57/255, alpha: 1.0)),
+                                                              BarChartView.DataSet.DataElement.Bar(value: 15000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0), selectionColor: UIColor(red: 214/255, green: 40/255, blue: 57/255, alpha: 1.0))]),
+    BarChartView.DataSet.DataElement(date: nil, xLabel: "May", bars: [BarChartView.DataSet.DataElement.Bar(value: 32010, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0), selectionColor: UIColor(red: 214/255, green: 40/255, blue: 57/255, alpha: 1.0)),
+                                                              BarChartView.DataSet.DataElement.Bar(value: 15000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0), selectionColor: UIColor(red: 214/255, green: 40/255, blue: 57/255, alpha: 1.0))]),
+    BarChartView.DataSet.DataElement(date: nil, xLabel: "Jun", bars: [BarChartView.DataSet.DataElement.Bar(value: 20000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0), selectionColor: UIColor(red: 214/255, green: 40/255, blue: 57/255, alpha: 1.0))]),
+    BarChartView.DataSet.DataElement(date: nil, xLabel: "Jul", bars: [BarChartView.DataSet.DataElement.Bar(value: 20000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0), selectionColor: UIColor.systemGreen),
+                                                                      BarChartView.DataSet.DataElement.Bar(value: 10000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0), selectionColor: UIColor.systemBlue)])
+], limit: .init(color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0), label: "YOUR LIMIT", value: 15_010))
 // swiftlint:enable all
 
 import SwiftUI
