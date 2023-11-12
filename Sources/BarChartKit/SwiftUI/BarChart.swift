@@ -13,14 +13,18 @@ public struct BarChart: View {
                 public let value: Double
                 /// Default color for the bar in not selected state
                 public let color: Color
+                /// Color used when element is selected
+                public let selectionColor: Color?
 
                 /// Create a single bar to be displayed in the BarChart
                 /// - Parameters:
                 ///   - value: Any floating point number to be represented in the bar
                 ///   - color: Default color for the bar in not selected state
-                public init(value: Double, color: Color) {
+                ///   - selectionColor: Color used when element is selected
+                public init(value: Double, color: Color, selectionColor: Color? = nil) {
                     self.value = value
                     self.color = color
+                    self.selectionColor = selectionColor
                 }
             }
 
@@ -41,15 +45,12 @@ public struct BarChart: View {
         }
 
         public let elements: [DataElement]
-        public let selectionColor: Color?
 
         /// Create a set of data to be displayed in the BarChart
         /// - Parameters:
         ///   - elements: Data to be displayed
-        ///   - selectionColor: Color of the bars when in selected state
-        public init(elements: [BarChart.DataSet.DataElement], selectionColor: Color?) {
+        public init(elements: [BarChart.DataSet.DataElement]) {
             self.elements = elements
-            self.selectionColor = selectionColor
         }
     }
 
@@ -72,7 +73,7 @@ public struct BarChart: View {
                                         Rectangle()
                                             .frame(width: barWidth, height: self.height(for: bar, viewHeight: geometry.size.height, maxValue: self.maxDataSetValue))
                                             .cornerRadius(barWidth / 2, antialiased: false)
-                                            .foregroundColor(self.selectedElement == element ? self.dataSet.selectionColor ?? bar.color : bar.color)
+                                            .foregroundColor(self.selectedElement == element ? bar.selectionColor ?? bar.color : bar.color)
                                 }
                                 .frame(maxWidth: .infinity, maxHeight: geometry.size.height, alignment: .bottom)
                             }
@@ -139,23 +140,23 @@ extension BarChart.DataSet.DataElement.Bar: Equatable {
 #if DEBUG
 // swiftlint:disable all
 fileprivate var mockBarChartDataSet: BarChart.DataSet = BarChart.DataSet(elements: [
-    BarChart.DataSet.DataElement(date: nil, xLabel: "Jan", bars: [BarChart.DataSet.DataElement.Bar(value: 20000, color: Color.green),
-                                                          BarChart.DataSet.DataElement.Bar(value: 15000, color: Color.blue)]),
+    BarChart.DataSet.DataElement(date: nil, xLabel: "Jan", bars: [BarChart.DataSet.DataElement.Bar(value: 20000, color: Color.green, selectionColor: Color.yellow),
+                                                          BarChart.DataSet.DataElement.Bar(value: 15000, color: Color.blue, selectionColor: Color.yellow)]),
     BarChart.DataSet.DataElement(date: nil, xLabel: "Feb", bars: [BarChart.DataSet.DataElement.Bar(value: 0, color: Color.green)]),
     BarChart.DataSet.DataElement(date: nil, xLabel: "Mar", bars: [BarChart.DataSet.DataElement.Bar(value: 10000, color: Color.green),
                                                           BarChart.DataSet.DataElement.Bar(value: 5000, color: Color.red)]),
     BarChart.DataSet.DataElement(date: nil, xLabel: "Apr", bars: [BarChart.DataSet.DataElement.Bar(value: 20000, color: Color.green),
                                                           BarChart.DataSet.DataElement.Bar(value: 15000, color: Color.blue)]),
-    BarChart.DataSet.DataElement(date: nil, xLabel: "May", bars: [BarChart.DataSet.DataElement.Bar(value: 42000, color: Color.green),
-                                                          BarChart.DataSet.DataElement.Bar(value: 15000, color: Color.blue)]),
-    BarChart.DataSet.DataElement(date: nil, xLabel: "Jun", bars: [BarChart.DataSet.DataElement.Bar(value: 20000, color: Color.green)]),
-    BarChart.DataSet.DataElement(date: nil, xLabel: "Jul", bars: [BarChart.DataSet.DataElement.Bar(value: 20000, color: Color.green),
-                                                          BarChart.DataSet.DataElement.Bar(value: 0.5555, color: Color.blue)])
-    ], selectionColor: Color.yellow)
+    BarChart.DataSet.DataElement(date: nil, xLabel: "May", bars: [BarChart.DataSet.DataElement.Bar(value: 42000, color: Color.green, selectionColor: Color.red),
+                                                          BarChart.DataSet.DataElement.Bar(value: 15000, color: Color.blue, selectionColor: Color.yellow)]),
+    BarChart.DataSet.DataElement(date: nil, xLabel: "Jun", bars: [BarChart.DataSet.DataElement.Bar(value: 20000, color: Color.green, selectionColor: Color.yellow)]),
+    BarChart.DataSet.DataElement(date: nil, xLabel: "Jul", bars: [BarChart.DataSet.DataElement.Bar(value: 20000, color: Color.green, selectionColor: Color.yellow),
+                                                          BarChart.DataSet.DataElement.Bar(value: 0.5555, color: Color.blue, selectionColor: Color.red)])
+    ])
 // swiftlint:enable all
 
 struct ParentView: View {
-    @State private var selectedElement: BarChart.DataSet.DataElement? = mockBarChartDataSet.elements.first
+    @State private var selectedElement: BarChart.DataSet.DataElement? = mockBarChartDataSet.elements.safe(at: 4)
 
     var body: some View {
         VStack(spacing: 10) {
