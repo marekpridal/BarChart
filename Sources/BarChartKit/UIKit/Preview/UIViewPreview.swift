@@ -4,7 +4,7 @@
 //  Created by Marek Přidal on 29/01/2020.
 //  Copyright © 2020 Marek Pridal. All rights reserved.
 //
-#if os(iOS)
+#if os(iOS) || os(visionOS)
 import SwiftUI
 
 struct UIViewPreview<View: UIView>: UIViewRepresentable {
