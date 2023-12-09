@@ -4,7 +4,7 @@
 //  Created by Marek Přidal on 01/01/2020.
 //  Copyright © 2020 Marek Pridal. All rights reserved.
 //
-#if os(iOS)
+#if os(iOS) || os(visionOS)
 import UIKit
 
 final class ChartLabel: UILabel {
@@ -16,12 +16,12 @@ final class ChartLabel: UILabel {
         super.init(frame: frame)
         commonInit()
     }
-
+#if os(iOS)
     override func awakeFromNib() {
         super.awakeFromNib()
         commonInit()
     }
-
+#endif
     private func commonInit() {
         font = UIFont.systemFont(ofSize: 12, weight: .medium)
     }

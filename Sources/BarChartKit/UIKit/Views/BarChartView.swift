@@ -5,7 +5,7 @@
 //  Copyright © 2019 Marek Pridal. All rights reserved.
 //
 
-#if os(iOS)
+#if os(iOS) || os(visionOS)
 import UIKit
 
 public protocol BarChartViewDelegate: AnyObject {
@@ -105,11 +105,12 @@ public final class BarChartView: UIView {
     }
 
     // MARK: - Override
+#if os(iOS)
     public override func awakeFromNib() {
         super.awakeFromNib()
         commonInit()
     }
-
+#endif
     public override func layoutSubviews() {
         guard let dataSet = dataSet else { return }
         constructGraph(dataSet: dataSet)

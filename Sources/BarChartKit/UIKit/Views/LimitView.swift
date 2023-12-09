@@ -5,7 +5,7 @@
 //  Created by Marek Přidal on 18/10/2020.
 //
 
-#if os(iOS)
+#if os(iOS) || os(visionOS)
 import UIKit
 
 final class LimitView: UIView {
@@ -38,11 +38,12 @@ final class LimitView: UIView {
     }
 
     // MARK: - Override
+#if os(iOS)
     public override func awakeFromNib() {
         super.awakeFromNib()
         commonInit()
     }
-
+#endif
     private func commonInit() {
         addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false

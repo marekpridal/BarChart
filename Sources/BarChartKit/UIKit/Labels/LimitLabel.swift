@@ -5,7 +5,7 @@
 //  Created by Marek Přidal on 18/10/2020.
 //
 
-#if os(iOS)
+#if os(iOS) || os(visionOS)
 import UIKit
 
 final class LimitLabel: UILabel {
@@ -17,12 +17,12 @@ final class LimitLabel: UILabel {
         super.init(frame: frame)
         commonInit()
     }
-
+#if os(iOS)
     override func awakeFromNib() {
         super.awakeFromNib()
         commonInit()
     }
-
+#endif
     private func commonInit() {
         font = UIFont.systemFont(ofSize: 10, weight: .medium)
     }

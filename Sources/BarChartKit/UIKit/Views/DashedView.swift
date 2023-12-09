@@ -5,7 +5,7 @@
 //  Created by Marek Přidal on 18/10/2020.
 //
 
-#if os(iOS)
+#if os(iOS) || os(visionOS)
 import UIKit
 
 final class DashedView: UIView {
