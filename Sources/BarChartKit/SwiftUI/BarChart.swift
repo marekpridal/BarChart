@@ -4,11 +4,11 @@ import SwiftUI
 public struct BarChart: View {
     // MARK: Structs
     /// Provides data for the BarChart
-    public struct DataSet {
+    public struct DataSet: Sendable {
         /// Single data element for BarChart. Can consist of multiple bars
-        public struct DataElement {
+        public struct DataElement: Sendable {
             /// Single bar to be displayed in the BarChart
-            public struct Bar {
+            public struct Bar: Sendable {
                 /// Any floating point number to be represented in the bar
                 public let value: Double
                 /// Default color for the bar in not selected state
@@ -139,7 +139,7 @@ extension BarChart.DataSet.DataElement.Bar: Equatable {
 
 #if DEBUG
 // swiftlint:disable all
-fileprivate var mockBarChartDataSet: BarChart.DataSet = BarChart.DataSet(elements: [
+fileprivate let mockBarChartDataSet: BarChart.DataSet = BarChart.DataSet(elements: [
     BarChart.DataSet.DataElement(date: nil, xLabel: "Jan", bars: [BarChart.DataSet.DataElement.Bar(value: 20000, color: Color.green, selectionColor: Color.yellow),
                                                           BarChart.DataSet.DataElement.Bar(value: 15000, color: Color.blue, selectionColor: Color.yellow)]),
     BarChart.DataSet.DataElement(date: nil, xLabel: "Feb", bars: [BarChart.DataSet.DataElement.Bar(value: 0, color: Color.green)]),

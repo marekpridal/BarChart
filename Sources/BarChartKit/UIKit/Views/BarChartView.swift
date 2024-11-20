@@ -15,9 +15,9 @@ public protocol BarChartViewDelegate: AnyObject {
 public final class BarChartView: UIView {
 
     // MARK: Structs
-    public struct DataSet: Equatable {
-        public struct DataElement: Equatable {
-            public struct Bar: Equatable {
+    public struct DataSet: Equatable, Sendable {
+        public struct DataElement: Equatable, Sendable {
+            public struct Bar: Equatable, Sendable {
                 public let value: Double
                 public let color: UIColor
                 public let selectionColor: UIColor
@@ -45,7 +45,7 @@ public final class BarChartView: UIView {
             }
         }
 
-        public struct Limit: Equatable {
+        public struct Limit: Equatable, Sendable {
             public let color: UIColor
             public let label: String?
             public let value: Double
@@ -105,12 +105,6 @@ public final class BarChartView: UIView {
     }
 
     // MARK: - Override
-#if os(iOS)
-    public override func awakeFromNib() {
-        super.awakeFromNib()
-        commonInit()
-    }
-#endif
     public override func layoutSubviews() {
         guard let dataSet = dataSet else { return }
         constructGraph(dataSet: dataSet)
@@ -291,7 +285,7 @@ public final class BarChartView: UIView {
 
 #if DEBUG
 // swiftlint:disable all
-fileprivate var mockBarChartDataSet: BarChartView.DataSet? = BarChartView.DataSet(elements: [
+fileprivate let mockBarChartDataSet: BarChartView.DataSet? = BarChartView.DataSet(elements: [
     BarChartView.DataSet.DataElement(date: nil, xLabel: "Jan", bars: [BarChartView.DataSet.DataElement.Bar(value: 20000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0), selectionColor: UIColor(red: 214/255, green: 40/255, blue: 57/255, alpha: 1.0)),
                                                               BarChartView.DataSet.DataElement.Bar(value: 15000, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0), selectionColor: UIColor(red: 214/255, green: 40/255, blue: 57/255, alpha: 1.0))]),
     BarChartView.DataSet.DataElement(date: nil, xLabel: "Feb", bars: [BarChartView.DataSet.DataElement.Bar(value: 0, color: UIColor(red: 208/255, green: 207/255, blue: 209/255, alpha: 1.0), selectionColor: UIColor(red: 214/255, green: 40/255, blue: 57/255, alpha: 1.0))]),

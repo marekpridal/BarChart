@@ -38,12 +38,6 @@ final class LimitView: UIView {
     }
 
     // MARK: - Override
-#if os(iOS)
-    public override func awakeFromNib() {
-        super.awakeFromNib()
-        commonInit()
-    }
-#endif
     private func commonInit() {
         addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
