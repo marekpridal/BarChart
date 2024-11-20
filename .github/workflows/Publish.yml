@@ -13,33 +13,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Set Xcode version
-      run: sudo xcode-select --switch /Applications/Xcode_14.2.app
-
-    - name: Generate Xcode project
-      run: swift package generate-xcodeproj
-
-    - name: Set version
-      run: /usr/libexec/Plistbuddy -c "Set CFBundleVersion ${GITHUB_REF#refs/*/}" BarChartKit.xcodeproj/BarChartKit_Info.plist
-
-    - name: Build
-      run: ./create-xcframework.sh
-
-    - name: Create BarChartKit.xcframework.zip
-      run: zip -r artifacts/BarChartKit.xcframework.zip artifacts/BarChartKit.xcframework
-
-    - name: Upload artifact of BarChartKit.xcframework
-      uses: actions/upload-artifact@v1.0.0
-      with:
-        name: BarChartKit.xcframework
-        path: ./artifacts/BarChartKit.xcframework
-  
-    - name: Upload artifact of BarChartKit.xcframework.zip
-      uses: actions/upload-artifact@v1.0.0
-      with:
-        name: BarChartKit.xcframework.zip
-        path: ./artifacts/BarChartKit.xcframework.zip
-
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -50,14 +23,3 @@ jobs:
         release_name: Release ${{ github.ref }}
         draft: false
         prerelease: false
-
-    - name: Upload Release Asset
-      id: upload-release-asset 
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: ./artifacts/BarChartKit.xcframework.zip
-        asset_name: BarChartKit.xcframework.zip
-        asset_content_type: application/zip
