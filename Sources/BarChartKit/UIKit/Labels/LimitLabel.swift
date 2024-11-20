@@ -17,12 +17,7 @@ final class LimitLabel: UILabel {
         super.init(frame: frame)
         commonInit()
     }
-#if os(iOS)
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        commonInit()
-    }
-#endif
+
     private func commonInit() {
         font = UIFont.systemFont(ofSize: 10, weight: .medium)
     }
