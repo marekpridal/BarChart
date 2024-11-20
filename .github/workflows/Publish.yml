@@ -21,4 +21,4 @@ jobs:
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         prerelease: false
-        title: "Release ${{ github.ref }}"
+        title: "Release ${{ github.ref_name }}"
