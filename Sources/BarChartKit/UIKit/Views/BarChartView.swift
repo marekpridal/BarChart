@@ -106,6 +106,7 @@ public final class BarChartView: UIView {
 
     // MARK: - Override
     public override func layoutSubviews() {
+        super.layoutSubviews()
         guard let dataSet = dataSet else { return }
         constructGraph(dataSet: dataSet)
     }
